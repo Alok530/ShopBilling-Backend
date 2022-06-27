@@ -5,7 +5,7 @@ router.get('/productquantity/:shopid', async (req, res) => {
     try {
         const products = await Product.find({ 'shopid': req.params.shopid });
         console.log(products);
-        let qty = products == null ? 0 : products.length;
+        let qty = products == null ? 0 : products[products.length-1].productid;
         return res.status(200).json(qty);
     } catch (error) {
         console.log('error inside productquantity', error);
@@ -45,12 +45,16 @@ router.post('/update',async(req,res)=>{
     }
 })
 
+
 router.get('/:productid/:shopid', async (req, res) => {
     try {
         const productid = req.params.productid;
         const shopid = req.params.shopid;
-        const product = await Product.findOne({ 'productid': productid,'shopid':shopid });
-        return res.status(200).json(product);
+        const isExist = await Product.findOne({ 'productid': productid,'shopid':shopid });
+        if(isExist){
+            return res.status(200).json({'success':true,'isExist':isExist})
+        }
+        return res.status(200).json({success:false});
     } catch (error) {
         console.log(error);
     }

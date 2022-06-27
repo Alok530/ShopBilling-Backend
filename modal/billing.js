@@ -1,31 +1,35 @@
 const mongoose = require('mongoose');
 
 const BillingSchema = new mongoose.Schema({
-    buyer:{
+    shopid: {
+        type: String,
+        required: true,
+    },
+    buyer: {
         type: Object,
         required: true,
     },
-    items:[
+    items: [
         {
-            productId: {
+            productid: {
                 type: String,
                 required: true,
             },
-            price:{
+            rate: {
                 type: Number,
                 required: true
             },
-            quantity:{
+            quantity: {
                 type: Number,
                 default: 1,
             },
         },
     ],
-    total:{
+    total: {
         type: Number,
         required: true,
     }
 });
 
-const Billing = mongoose.model('billing',BillingSchema);
+const Billing = mongoose.model('billing', BillingSchema);
 module.exports = Billing;
